@@ -1,0 +1,10 @@
+git clone https://github.com/GoogleCloudPlatform/kubernetes-engine-samples
+cd kubernetes-engine-samples/hello-app
+export PROJECT_ID="$(gcloud config get-value project -q)"
+docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+docker images
+gcloud auth configure-docker
+docker push gcr.io/${PROJECT_ID}/hello-app:v1
+gcloud container clusters create hello-cluster --num-nodes=3
+kubectl run hello-web --image=gcr.io/${PROJECT_ID}/hello-app:v1 --port 8080
+kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080
