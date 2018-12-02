@@ -23,7 +23,7 @@ def get_hit_count():
 @app.route('/')
 def hello():
     count = get_hit_count()
-    return 'The link is viewed{} times.\n'.format(count)
+    return 'Hello World{} times.\n'.format(count)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True)
