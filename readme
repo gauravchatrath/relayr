@@ -1,10 +1,27 @@
-git clone https://github.com/GoogleCloudPlatform/kubernetes-engine-samples
-cd kubernetes-engine-samples/hello-app
+Clone the repository
+git clone https://github.com/gauravchatrath/relayr.git
+cd relayr
+
+
+Set the enviornment variable of the project
 export PROJECT_ID="$(gcloud config get-value project -q)"
+
+
+Build the docker image
 docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+
+Verify the image
 docker images
+
+Authenticate the docker
 gcloud auth configure-docker
+
+Push the image
 docker push gcr.io/${PROJECT_ID}/hello-app:v1
+
+Create a kuberntes cluster
 gcloud container clusters create hello-cluster --num-nodes=3
+
+Deploy the application
 kubectl run hello-web --image=gcr.io/${PROJECT_ID}/hello-app:v1 --port 8080
-kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8080
+
